@@ -542,7 +542,7 @@ app.post(`/commend`, async (req, res) => {
 // 한줄평 데이터 요청
 app.get(`/detailcommend/:no`, async (req, res) => {
     const {no} = req.params;
-    conn.query(`select * from commend where c_movno='${no}'`, (err, result, fields) => {
+    conn.query(`select * from commend where c_movno='${no}' order by c_no desc`, (err, result, fields) => {
         if(result) {
             console.log('완료');
             res.send(result);
@@ -551,6 +551,34 @@ app.get(`/detailcommend/:no`, async (req, res) => {
         }
     })
 })
+
+//한줄평 데이터 수정 데이터 하나 요청
+app.get('/getEditCommend/:id', async (req, res) => {
+    const {id} = req.params;
+    conn.query(`select * from commend where c_no = '${id}'`,
+     (err, result, fields) => {
+        if(result) {
+            console.log(result)
+            res.send(result)
+        }
+        console.log(err)
+     })
+})
+
+//한줄평 데이터 수정 요청
+app.patch('/setEdit', async (req, res) => {
+    const {isDesc, isNo} = req.body;
+    conn.query(`update commend set c_desc = '${isDesc}' where c_no = '${isNo}'`,
+     (err, result, fields) => {
+        if(result) {
+            console.log(result)
+            res.send(result)
+        }
+        console.log(err)
+     })
+})
+
+//conn.query(`update notice set not_title = '${n_title}', not_name = '${n_nickname}', not_date = '${n_date}', not_desc = '${n_desc}' where not_no = '${n_no}'`,
 
 // 추천 카운트 데이터 요청
 app.get(`/recocount/:no`, async (req, res) => {
