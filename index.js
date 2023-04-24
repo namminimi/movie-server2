@@ -255,7 +255,7 @@ app.post("/notices", async (req, res) => {
 
 //공지사항 데이터 요청
 app.get("/notice", async (req, res) => {
-    conn.query(`select * from notice`,
+    conn.query(`select * from notice order by not_no desc`,
     (err, result, fields)=>{
         if(result){
             res.send(result);
@@ -324,7 +324,7 @@ app.get("/subrevs", async (req, res) => {
 
 //자유게시판 데이터 요청
 app.get("/textFree", async (req, res) => {
-    conn.query(`select * from board`,
+    conn.query(`select * from board order by bor_no desc`,
      (err, result, fields)=>{
         if(result){
             console.log(result);
